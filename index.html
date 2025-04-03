@@ -16,19 +16,20 @@
                 // ✅ Fix Play Store link
                 storeUrl = "https://play.google.com/store/apps/details?id=com.zanriderider";
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // ✅ Fix App Store link
                 storeUrl = "https://apps.apple.com/us/app/zanride-request-a-ride/id6499216655";
             } else {
-                storeUrl = "https://zanride.com"; // Fallback for non-mobile users
+                storeUrl = "https://zanride.com"; // Fallback for desktop users
             }
 
             if (referralCode) {
-                storeUrl += `&ref=${referralCode}`;
+                storeUrl += `?ref=${referralCode}`;
             }
 
-            // ✅ Ensure proper redirection
+            // ✅ Delay redirection for better compatibility
             setTimeout(() => {
                 window.location.href = storeUrl;
-            }, 1000);
+            }, 1500);
         }
 
         window.onload = redirectToApp;
