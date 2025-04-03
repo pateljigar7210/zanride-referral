@@ -5,36 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
-        function redirectToStore() {
-            // Get referral code from URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const referralCode = urlParams.get('code');
+        function redirectToApp() {
+            const params = new URLSearchParams(window.location.search);
+            const referralCode = params.get("code");
 
-            // Detect device type
+            let storeUrl = "";
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            let storeUrl = '';
 
             if (/android/i.test(userAgent)) {
+                // ✅ Fix Play Store link
                 storeUrl = "https://play.google.com/store/apps/details?id=com.zanriderider";
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                 storeUrl = "https://apps.apple.com/us/app/zanride-request-a-ride/id6499216655";
             } else {
-                storeUrl = "https://zanride.com"; // Fallback to your website
+                storeUrl = "https://zanride.com"; // Fallback for non-mobile users
             }
 
-            // Redirect with referral code if available
             if (referralCode) {
-                storeUrl += `?referral=${referralCode}`;
+                storeUrl += `&ref=${referralCode}`;
             }
 
-            window.location.href = storeUrl;
+            // ✅ Ensure proper redirection
+            setTimeout(() => {
+                window.location.href = storeUrl;
+            }, 1000);
         }
 
-        // Run redirect on page load
-        window.onload = redirectToStore;
+        window.onload = redirectToApp;
     </script>
 </head>
 <body>
-    <p>Redirecting to the app store...</p>
+    <p>Redirecting you to the app store...</p>
 </body>
 </html>
