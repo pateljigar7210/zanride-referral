@@ -5,35 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
-        function redirectToApp() {
+        function redirectToStore() {
+            // Get referral code from URL
             const urlParams = new URLSearchParams(window.location.search);
-            const referralCode = urlParams.get("code"); // Get referral code
-            const androidUrl = "https://play.google.com/store/apps/details?id=com.zanriderider";
-            const iosUrl = "https://apps.apple.com/us/app/zanride-request-a-ride/id6499216655";
+            const referralCode = urlParams.get('code');
 
-            // Detect the user's device
+            // Detect device type
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            let storeUrl = "https://zanride.com"; // Default to your website
+            let storeUrl = '';
 
             if (/android/i.test(userAgent)) {
-                storeUrl = androidUrl;
-            } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-                storeUrl = iosUrl;
+                storeUrl = "https://play.google.com/store/apps/details?id=com.zanriderider";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                storeUrl = "https://apps.apple.com/us/app/zanride-request-a-ride/id6499216655";
+            } else {
+                storeUrl = "https://zanride.com"; // Fallback to your website
             }
 
-            // Append referral code if available
+            // Redirect with referral code if available
             if (referralCode) {
                 storeUrl += `?referral=${referralCode}`;
             }
 
-            // Redirect to the correct store
             window.location.href = storeUrl;
         }
 
-        window.onload = redirectToApp;
+        // Run redirect on page load
+        window.onload = redirectToStore;
     </script>
 </head>
 <body>
-    <p>Redirecting to ZanRide...</p>
+    <p>Redirecting to the app store...</p>
 </body>
 </html>
